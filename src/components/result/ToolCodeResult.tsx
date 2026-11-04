@@ -29,6 +29,18 @@ export default function ToolCodeResult({
   const theme = useTheme();
 
   const handleCopy = () => {
+    // navigator.clipboard is undefined on plain HTTP (e.g. self-hosted on Umbrel)
+    if (!navigator.clipboard) {
+      const textarea = document.createElement('textarea');
+      textarea.value = value;
+      textarea.style.position = 'fixed';
+      document.body.appendChild(textarea);
+      textarea.select();
+      document.execCommand('copy');
+      document.body.removeChild(textarea);
+      showSnackBar(t('toolTextResult.copied'), 'success');
+      return;
+    }
     navigator.clipboard
       .writeText(value)
       .then(() => showSnackBar(t('toolTextResult.copied'), 'success'))
