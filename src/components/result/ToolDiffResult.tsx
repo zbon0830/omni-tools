@@ -5,6 +5,7 @@ import { useContext } from 'react';
 import { CustomSnackBarContext } from '../../contexts/CustomSnackBarContext';
 import { globalInputHeight } from '../../config/uiConfig';
 import { useTranslation } from 'react-i18next';
+import { copyTextToClipboard } from '@utils/clipboard';
 import { stripAndDecodeHtml } from 'utils/string';
 import DOMPurify from 'dompurify';
 
@@ -30,8 +31,7 @@ export default function ToolDiffResult({
 
   const handleCopy = () => {
     const text = isHtml ? stripAndDecodeHtml(value) : value;
-    navigator.clipboard
-      .writeText(text)
+    copyTextToClipboard(text)
       .then(() => showSnackBar(t('toolTextResult.copied'), 'success'))
       .catch((err) =>
         showSnackBar(t('toolTextResult.copyFailed', { error: err }), 'error')

@@ -4,6 +4,7 @@ import { CustomSnackBarContext } from '../../contexts/CustomSnackBarContext';
 import InputHeader from '../InputHeader';
 import InputFooter from './InputFooter';
 import { useTranslation } from 'react-i18next';
+import { copyTextToClipboard } from '@utils/clipboard';
 
 export default function ToolTextInput({
   value,
@@ -21,8 +22,7 @@ export default function ToolTextInput({
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleCopy = () => {
-    navigator.clipboard
-      .writeText(value)
+    copyTextToClipboard(value)
       .then(() => showSnackBar(t('toolTextInput.copied'), 'success'))
       .catch((err) => {
         showSnackBar(t('toolTextInput.copyFailed', { error: err }), 'error');

@@ -7,6 +7,7 @@ import { replaceSpecialCharacters } from '@utils/string';
 import mime from 'mime';
 import { globalInputHeight } from '../../config/uiConfig';
 import { useTranslation } from 'react-i18next';
+import { copyTextToClipboard } from '@utils/clipboard';
 
 export default function ToolTextResult({
   title = 'Result',
@@ -24,8 +25,7 @@ export default function ToolTextResult({
   const { t } = useTranslation();
   const { showSnackBar } = useContext(CustomSnackBarContext);
   const handleCopy = () => {
-    navigator.clipboard
-      .writeText(value)
+    copyTextToClipboard(value)
       .then(() => showSnackBar(t('toolTextResult.copied'), 'success'))
       .catch((err) => {
         showSnackBar(t('toolTextResult.copyFailed', { error: err }), 'error');

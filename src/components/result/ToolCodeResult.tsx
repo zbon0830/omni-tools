@@ -4,6 +4,7 @@ import { CustomSnackBarContext } from '../../contexts/CustomSnackBarContext';
 import InputHeader from '../InputHeader';
 import ResultFooter from './ResultFooter';
 import { useTranslation } from 'react-i18next';
+import { copyTextToClipboard } from '@utils/clipboard';
 import Editor from '@monaco-editor/react';
 import mime from 'mime';
 import {
@@ -29,8 +30,7 @@ export default function ToolCodeResult({
   const theme = useTheme();
 
   const handleCopy = () => {
-    navigator.clipboard
-      .writeText(value)
+    copyTextToClipboard(value)
       .then(() => showSnackBar(t('toolTextResult.copied'), 'success'))
       .catch((err) => {
         showSnackBar(t('toolTextResult.copyFailed', { error: err }), 'error');
